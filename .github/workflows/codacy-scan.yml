@@ -29,6 +29,9 @@ jobs:
       actions: read
     name: Codacy Security Scan
     runs-on: ubuntu-latest
+    # Under a minute on the small repositories; the headroom is for LinuxIO,
+    # the largest caller. Callers cannot set a timeout on a reusable workflow.
+    timeout-minutes: 20
     env:
       CODACY_CLI_VERSION: 1.0.0-main.387.sha.28c6773
       CODACY_CLI_SHA256: dfa47dad87d48df7a5076c57e0c124861b9a63903469e87e9b7af7323799fcbd
