@@ -1,0 +1,22 @@
+# Runs the shared Codacy scan on this repository, from the copy in the same
+# commit, so a change to the shared workflow is tested by its own pull request.
+
+name: Codacy Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  codacy:
+    name: Codacy
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    uses: ./.github/workflows/codacy-scan.yml
