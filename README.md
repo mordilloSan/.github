@@ -31,6 +31,36 @@ pull request the maintainer opens, release pull requests included. When a
 second maintainer joins, add them to each `CODEOWNERS` and turn on **Require
 review from Code Owners** in each repository's `main` ruleset.
 
+## Dependabot
+
+Every repository's `.github/dependabot.yml` has the same shape, starting with
+this block for its workflows:
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+      include: scope
+```
+
+A repository with package manifests adds one block per ecosystem (`gomod`,
+`npm`, `docker`) with the same schedule and cooldown, a group of
+`update-types: [minor, patch]` so a new major version arrives in a pull
+request of its own, and `prefix: build`. The prefixes put the updates in the
+CI/CD and Build sections of the gh-release-flow release notes. The seven-day
+cooldown keeps a new release, including a hijacked one, out for a week;
+security updates skip it.
+
 ## Codacy scan
 
 [`.github/workflows/codacy-scan.yml`](.github/workflows/codacy-scan.yml) runs
