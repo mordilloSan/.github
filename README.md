@@ -1,6 +1,35 @@
 # .github
 
-Shared GitHub Actions workflows for the repositories of this account.
+Shared GitHub Actions workflows and default community health files for the
+repositories of this account.
+
+## Default community health files
+
+GitHub shows these files in every public repository of the account that has
+no file of the same kind of its own:
+
+| File | Purpose |
+|---|---|
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | how to report, branch, commit and open a pull request |
+| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) | Contributor Covenant 2.0 |
+| [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE) | bug and feature forms; blank issues are off |
+
+A repository's own file of the same kind replaces the default entirely. For
+issue templates, any `.github/ISSUE_TEMPLATE/` folder in the repository
+replaces the whole default folder: fan_control keeps its own forms for that
+reason.
+
+`SECURITY.md` stays in each repository, since supported versions differ.
+Three files cannot be shared from here and live in each repository:
+`.github/CODEOWNERS`, `.github/dependabot.yml` and the workflows that call the
+shared ones.
+
+Every repository's `CODEOWNERS` names the maintainer, but its `main` ruleset
+does not require a code-owner review yet: GitHub never lets the author of a
+pull request approve it, so with one maintainer the rule would block every
+pull request the maintainer opens, release pull requests included. When a
+second maintainer joins, add them to each `CODEOWNERS` and turn on **Require
+review from Code Owners** in each repository's `main` ruleset.
 
 ## Codacy scan
 
