@@ -32,9 +32,33 @@ Write every commit subject as a
 [Conventional Commit](https://www.conventionalcommits.org/):
 `type(scope): subject`. The scope is optional and the subject is imperative,
 at most 72 characters. Use `feat`, `fix`, `docs`, `style`, `refactor`, `perf`,
-`test`, `build`, `ci` or `chore`. The release notes are built from these subjects,
-grouped by type, so write each subject for the people who will read the
-release.
+`test`, `build`, `ci` or `chore`. The release notes are built from these
+subjects, one section per type, so write each subject for the people who will
+read the release.
+
+The body explains why. The last paragraph may hold footers, one per line, which
+the release notes read:
+
+| Footer | Meaning |
+| --- | --- |
+| `Fixes #12` (also `Closes`, `Resolves`) | The change fixes that issue. GitHub closes it when the commit reaches `main`, and the notes link it |
+| `Refs #12` | The change relates to that issue, which stays open |
+| `BREAKING CHANGE: what breaks` | Something that worked before stops working; the notes list it under Breaking Changes. A `!` after the type, as in `feat!:`, means the same |
+| `Security: GHSA-xxxx-xxxx-xxxx` | The change fixes the vulnerability in that advisory |
+| `Security: low`, `moderate`, `high` or `critical` | The change closes a way to misuse the software that has no advisory, at that severity |
+
+A commit with a `Security:` footer is listed under Security, with its severity.
+A vulnerability is still reported privately first, as above; the footer goes on
+the fix, not in a public issue.
+
+```text
+fix(auth): check the session token
+
+The token was compared before it was decoded, so a malformed one passed.
+
+Security: moderate
+Fixes #12
+```
 
 ## Licence
 
