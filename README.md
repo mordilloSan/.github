@@ -89,7 +89,7 @@ jobs:
       contents: read
       security-events: write
       actions: read
-    uses: mordilloSan/.github/.github/workflows/codacy-scan.yml@main
+    uses: mordilloSan/.github/.github/workflows/codacy-scan.yml@<commit of the release> # vX.Y.Z
 ```
 
 The check appears on pull requests as `Codacy / Codacy Security Scan`.
@@ -97,8 +97,20 @@ The check appears on pull requests as `Codacy / Codacy Security Scan`.
 To run other tools or versions in one repository, add `.codacy/codacy.yaml` to
 it; the shared workflow then leaves it as it is.
 
-Callers follow `@main`: a change merged here reaches every repository on its
-next run, without a pull request there.
+Callers pin a release of this repository by its commit, with the version in
+the comment, like any other action. A change merged here reaches a repository
+only after it is released and that repository's weekly Dependabot pull request
+(`ci(deps)`, the `actions` group) moves the pin, so the change is tested there
+before it applies.
+
+## Releases
+
+A release is always made from a `dev/vX.Y.Z` branch: merging its pull request
+into `main` starts [`release.yml`](.github/workflows/release.yml), which
+requires the pull request's other checks to have passed and publishes the
+GitHub Release for that tag, with the pull request body as its notes. The
+version is for the shared workflows: a change to their inputs, permissions or
+check name that callers must follow is a major version.
 
 ## Defaults for new repositories
 
