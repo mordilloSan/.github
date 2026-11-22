@@ -99,3 +99,35 @@ it; the shared workflow then leaves it as it is.
 
 Callers follow `@main`: a change merged here reaches every repository on its
 next run, without a pull request there.
+
+## Defaults for new repositories
+
+[`defaults/`](defaults) holds what `gh release-flow init` (or `make init`)
+applies to a new repository of this account. The layout is a convention of
+gh-release-flow, described in its [README](https://github.com/mordilloSan/gh-release-flow#repository-defaults);
+`init` only reads these files, it never runs anything from here.
+
+- [`defaults/files/`](defaults/files): files copied into the repository at the
+  same path, with `{{owner}}`, `{{repo}}` and `{{year}}` filled in. A file the
+  repository already has is kept. They are the licence, the security policy,
+  `CODEOWNERS`, the Dependabot block and Codacy caller above, a Check workflow
+  that runs `make check` and `make test`, and a `Makefile` whose `check` and
+  `test` have nothing to do yet, so the first pull request passes.
+- [`defaults/settings/`](defaults/settings): one request body per GitHub API
+  call, each file named after its call; an empty file is a call without a
+  body, which turns that feature on. Together they set merge commits only, a
+  read-only Actions token, CodeQL default setup, secret scanning with push
+  protection, Dependabot alerts and security updates, private vulnerability
+  reporting and immutable releases.
+- [`defaults/rulesets/`](defaults/rulesets): the `main` and `release tags`
+  rulesets, as bodies the create API accepts. A ruleset whose name the
+  repository already has is kept.
+
+The `main` ruleset requires the checks `check` (the Check workflow's job) and
+`Codacy / Codacy Security Scan`; renaming either check means changing
+`defaults/rulesets/main.json` with it.
+
+To change a default, edit it here through a pull request. The change applies
+to repositories set up afterwards; existing repositories are not touched.
+Language-specific parts, such as a Dependabot block per package ecosystem or
+CI for Go or TypeScript, are not defaults: add them to each repository by hand.
