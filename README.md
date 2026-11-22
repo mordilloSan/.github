@@ -131,10 +131,12 @@ gh-release-flow, described in its [README](https://github.com/mordilloSan/gh-rel
   `test` have nothing to do yet, so the first pull request passes.
 - [`defaults/settings/`](defaults/settings): one request body per GitHub API
   call, each file named after its call; an empty file is a call without a
-  body, which turns that feature on. Together they set merge commits only, a
-  read-only Actions token, CodeQL default setup, secret scanning with push
-  protection, Dependabot alerts and security updates, private vulnerability
-  reporting and immutable releases.
+  body, which turns that feature on. Together they set merge commits only,
+  Actions that must be pinned to a full commit SHA, a read-only Actions token,
+  CodeQL default setup, secret scanning with push protection, Dependabot alerts
+  and security updates, private vulnerability reporting and immutable
+  releases. `actions-permissions.json` needs gh-release-flow v2.2.0 or later;
+  an older version reports it and skips it.
 - [`defaults/rulesets/`](defaults/rulesets): the `main` and `release tags`
   rulesets, as bodies the create API accepts. A ruleset whose name the
   repository already has is kept.
